@@ -17,13 +17,16 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "npm run serve",
-    "serve": "nodemon dist/src",
-    "start:dev": "ts-node src | pino-pretty"
+    "serve": "NODE_ENV=development nodemon dist/src",
+    "start:dev": "NODE_ENV=development ts-node src | pino-pretty"
   },
   "license": "ISC",
   "dependencies": {
+    "cashify": "^2.5.0",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express-pino-logger": "^6.0.0",
+    "node-fetch": "^2.6.1",
     "pino": "^6.11.1",
     "superagent": "^6.1.0",
     "tslib": "^2.1.0",
