@@ -1,6 +1,7 @@
 import * as express from 'express';
-import {Server} from 'typescript-rest';
-import {AddressInfo} from 'net';
+import { BadRequestError, HttpError } from 'typescript-rest/dist/server/model/errors';
+import { Server } from 'typescript-rest';
+import { AddressInfo } from 'net';
 
 import * as npmPackage from '../package.json';
 
@@ -22,6 +23,11 @@ export class ApiServer {
   constructor(private readonly app: express.Application = express(), apiContext = configApiContext) {
     this.app.use(cors());
 
+
+    if (process.env.NODE_ENV !== 'production') {
+      require('dotenv').config();
+    }
+
     const apiRouter: express.Router = express.Router();
     Server.loadServices(
       apiRouter,
@@ -29,14 +35,28 @@ export class ApiServer {
         'controllers/*',
       ],
       __dirname,
-    );
+      );
 
-    if (!apiContext || apiContext === '/') {
-      this.app.use(apiRouter);
-    } else {
-      this.app.use(apiContext, apiRouter);
+      if (!apiContext || apiContext === '/') {
+        this.app.use(apiRouter);
+      } else {
+        this.app.use(apiContext, apiRouter);
+      }
+
+      // format the errors sent by typescript-rest as json
+      this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        if (err instanceof HttpError) {
+          if (res.headersSent) { // important to allow default error handler to close connection if headers already sent
+            return next(err);
+          }
+          res.set("Content-Type", "application/json")
+          res.status(err.statusCode)
+          res.json({error : err.message, code: err.statusCode});
+        } else {
+          next(err);
+        }
+      });
     }
-  }
 
   /**
    * Start the server
