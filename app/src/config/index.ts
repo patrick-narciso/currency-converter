@@ -1,6 +1,6 @@
 const envs = {
   development: {
-    baseUrl: "http://localhost:3001/api",
+    baseUrl: 'http://localhost:3001/api',
     timeout: 2000,
   },
 };

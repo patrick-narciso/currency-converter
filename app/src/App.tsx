@@ -1,17 +1,17 @@
-import { useState } from "react";
-import classNames from "classnames";
+import { useState } from 'react';
+import classNames from 'classnames';
 
-import useWindowSize from "./hooks/useWindowSize";
-import useLocalStorage from "./hooks/useLocalStorage";
+import useWindowSize from './hooks/useWindowSize';
+import useLocalStorage from './hooks/useLocalStorage';
 
-import { currencyFormatter, currencyParser } from "./utils";
+import { currencyFormatter, currencyParser } from './utils';
 import {
   convertCurrency,
   ConversionSavedType,
   ConversionType,
-} from "./services/currency";
+} from './services/currency';
 
-import "./App.css";
+import './App.css';
 
 import {
   Layout,
@@ -21,7 +21,7 @@ import {
   Select,
   Form,
   Table,
-} from "antd";
+} from 'antd';
 
 const { Header, Content } = Layout;
 const { Title } = Typography;
@@ -36,50 +36,50 @@ const tailLayout = {
 };
 
 const App: React.FC = () => {
-  const [currency, setCurrency] = useState<string>("USD");
+  const [currency, setCurrency] = useState<string>('USD');
   const [output, setOutput] = useState<string | 0>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [lastConversions, setLastConversions] = useLocalStorage<
     ConversionType[]
-  >("lastConversions", []);
+  >('lastConversions', []);
   const screen = useWindowSize();
   const isMobile = screen.width ? screen.width <= 1024 : false;
   const latestConversions = lastConversions.slice(0, 10);
 
   const currencies = [
     {
-      value: "USD",
-      label: "US Dollar",
+      value: 'USD',
+      label: 'US Dollar',
     },
     {
-      value: "EUR",
-      label: "Euro",
+      value: 'EUR',
+      label: 'Euro',
     },
     {
-      value: "JPY",
-      label: "Yen",
+      value: 'JPY',
+      label: 'Yen',
     },
     {
-      value: "BRL",
-      label: "Brazilian Real",
+      value: 'BRL',
+      label: 'Brazilian Real',
     },
   ];
 
   const columns = [
     {
-      title: "Value",
-      dataIndex: "value",
-      key: "value",
+      title: 'Value',
+      dataIndex: 'value',
+      key: 'value',
     },
     {
-      title: "From",
-      dataIndex: "from",
-      key: "from",
+      title: 'From',
+      dataIndex: 'from',
+      key: 'from',
     },
     {
-      title: "To",
-      dataIndex: "to",
-      key: "to",
+      title: 'To',
+      dataIndex: 'to',
+      key: 'to',
     },
   ];
 
@@ -108,7 +108,7 @@ const App: React.FC = () => {
         saveConversion(data);
       }
     } catch (error) {
-      console.error("error on request", error);
+      console.error('error on request', error);
     } finally {
       setLoading(false);
     }
@@ -122,13 +122,13 @@ const App: React.FC = () => {
         </Title>
       </Header>
       <Content
-        className={classNames({ "pr-100": !isMobile }, "content-container")}
+        className={classNames({ 'pr-100': !isMobile }, 'content-container')}
       >
         <Form
           {...layout}
           name="convertForm"
           onFinish={handleSubmit}
-          onFinishFailed={() => console.log("error")}
+          onFinishFailed={() => console.log('error')}
         >
           <Form.Item {...tailLayout}>
             <Title
@@ -144,7 +144,7 @@ const App: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: "Please input the source currency",
+                message: 'Please input the source currency',
               },
             ]}
           >
@@ -162,13 +162,13 @@ const App: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: "Please input the value you want to convert!",
+                message: 'Please input the value you want to convert!',
               },
             ]}
           >
             <InputNumber
               defaultValue={0}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               formatter={currencyFormatter(currency)}
               parser={currencyParser}
             />
@@ -179,7 +179,7 @@ const App: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: "Please input the destination currency",
+                message: 'Please input the destination currency',
               },
             ]}
           >

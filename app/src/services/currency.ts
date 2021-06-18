@@ -1,4 +1,4 @@
-import envConfig from "../config";
+import envConfig from '../config';
 
 const url = envConfig.development.baseUrl;
 
@@ -27,7 +27,7 @@ async function convertCurrency({
     const json = await response.json();
     return json;
   } catch (error) {
-    console.error("An error has occurred on Convert request", error);
+    console.error('An error has occurred on Convert request', error);
   }
 }
 
