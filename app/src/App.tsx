@@ -197,11 +197,14 @@ const App: React.FC = () => {
               Convert
             </Button>
           </Form.Item>
-          <Title level={4}>Your latest conversions</Title>
           {isMobile ? (
-            <Table dataSource={latestConversions} columns={columns} />
+            <>
+              <Title level={4}>Your latest conversions</Title>
+              <Table dataSource={latestConversions} columns={columns} />
+            </>
           ) : (
             <Form.Item {...tailLayout}>
+              <Title level={4}>Your latest conversions</Title>
               <Table dataSource={latestConversions} columns={columns} />
             </Form.Item>
           )}

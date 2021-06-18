@@ -1,0 +1,21 @@
+
+version: '3'
+
+services:
+  backend:
+    env_file: "./.env"
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: "currency-back"
+    ports:
+      - "3001:3001"
+  frontend:
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    image: "currency-front"
+    ports:
+      - "3000:3000"
+    links:
+      - "backend:be"
